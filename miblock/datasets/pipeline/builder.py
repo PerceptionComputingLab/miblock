@@ -4,6 +4,7 @@ class Registry():
         self._module_dict = dict()
 
     def get(self,key):
+        #print(self._module_dict)
         return self._module_dict[key]
 
     def register_module(self, name=None, force=False, module=None):
@@ -20,3 +21,13 @@ class Registry():
                 f'  of str, but got {type(name)}')
 
         return _register
+DATASETS = Registry('dataset')
+PIPELINE = Registry('pipeline')
+
+
+def build(key,register):
+    args = key.copy()
+    if isinstance(key,dict):
+        t = register.get(args.pop('type'))
+        return t(**args)
+

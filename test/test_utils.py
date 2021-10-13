@@ -10,3 +10,5 @@ class Thisclass():
 print(newclass.get('Thisclass'))
 
 
+from datasets import PIPELINE
+print(PIPELINE.get('Compose'))
