@@ -4,23 +4,29 @@ import numpy as np
 from .builder import PIPELINE
 @PIPELINE.register_module()
 class LoadImage(object):
-    def __init__(self):
-        pass
-    def __call__(self,path):
-        img = sitk.ReadImage(path)
-        img_array = sitk.GetArrayFromImage(img)
-        img_array = torch.FloatTensor(img_array.astype(np.float32))
-        return img_array
+    """Load a medical image
 
-@PIPELINE.register_module()
-class LoadLabel(object):
+    """
     def __init__(self):
         pass
     def __call__(self,path):
-        img = sitk.ReadImage(path)
-        img_array = sitk.GetArrayFromImage(img)
-        img_array = torch.FloatTensor(img_array.astype(np.float32))
-        return img_array
+        """Call functions to load image
+        Args:
+            path:The path of the image
+        """
+        if isinstance(path,tuple):
+            img = sitk.ReadImage(path[0])
+            img_array = sitk.GetArrayFromImage(img)
+
+            lab = sitk.ReadImage(path[1])
+            lab_array = sitk.GetArrayFromImage(lab)
+         
+            return img_array,lab_array
+        else:
+            img = sitk.ReadImage(path[0])
+            img_array = sitk.GetArrayFromImage(img)
+            #img_array = torch.FloatTensor(img_array.astype(np.float32))
+            return img_array
 
 
 

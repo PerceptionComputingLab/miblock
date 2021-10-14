@@ -5,23 +5,59 @@ from os import listdir
 from .pipeline import Compose,DATASETS
 @DATASETS.register_module()
 class CustomDataset(Dataset):
-    def __init__(self,pipeline,file_dir,img_dir,lab_dir,mode):
+    """Basic dataset
+        Format of data:
+            ├── file_dir
+            │   ├── img_dir
+            │   │   │   ├── 1
+            │   │   │   ├── 2
+            │   │   │   ├── 3
+            │   ├── ann_dir
+            │   │   │   ├── 1
+            │   │   │   ├── 2
+            │   │   │   ├── 3
+        The name of image and label needs to correspond
+
+        Args:
+            pipeline (list[dict]): Processing pipeline
+            img_dir (str): Path to image directory
+            lab_dir (str): Path to label directory
+            mode (bool):if mode = True, enter test mode
+
+    """
+    def __init__(self,pipeline,img_dir,lab_dir,mode):
         self.pipeline = Compose(pipeline)
-        self.file_dir = file_dir
         self.img_dir = img_dir
         self.lab_dir = lab_dir
         self.mode = mode
-        self.img_infos = self.loadfiles(self.file_dir,self.img_dir,self.lab_dir)
+        self.img_infos = self.loadfiles(self.img_dir,self.lab_dir)
         
 
     def __len__(self):
+        """Return the total number of data."""
         return len(self.img_infos)
 
     def __getitem__(self, index):
-        #print(self.img_infos[index])
+        """Get training/test data after pipeline.
+
+        Args:
+            idx (int): Index of data.
+
+        Returns:
+            dict: Transformed data.
+        """
         return self.pipeline(self.img_infos[index])
 
-    def loadfiles(self,file_dir,img_dir,lab_dir):
+    def loadfiles(self,img_dir,lab_dir):
+        """Integrated data path.
+
+        Args:
+            img_dir (str): Path to image directory
+            img_suffix (str): Suffix of images.
+            lab_dir (str): Path to label directory
+        Returns:
+            list[str]: All image info of dataset.
+        """
         if self.mode == 'test':
             img = listdir(img_dir)
             return img
@@ -33,5 +69,7 @@ class CustomDataset(Dataset):
             return list(zip(sorted(img),sorted(lab)))
 
 def build_dataset(cfg):
-    dataset = CustomDataset(cfg['train_pipeline'],cfg['file_dir'],cfg['img_dir'],cfg['lab_dir'],cfg['mode'])
+    """Build the dataset
+    """
+    dataset = CustomDataset(cfg['train_pipeline'],cfg['img_dir'],cfg['lab_dir'],cfg['mode'])
     return dataset

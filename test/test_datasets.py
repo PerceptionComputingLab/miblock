@@ -11,7 +11,7 @@ def parse_args():
 
 args = parse_args()
 cfg = Config.load(args.config)
-assert cfg['file_dir'] ==  "W:\\LITS17"
+assert 'img_dir' in cfg
 pipeline = []
 for p in cfg['train_pipeline']:
     pipeline.append(p['type'])

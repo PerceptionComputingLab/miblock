@@ -1,5 +1,4 @@
 cfg = dict(
-    file_dir = 'W:\LITS17',
     img_dir = 'W:\LITS17\image',
     lab_dir = 'W:\LITS17\label',
     train_pipeline = [
