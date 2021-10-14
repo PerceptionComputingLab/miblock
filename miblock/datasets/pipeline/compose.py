@@ -9,7 +9,7 @@ class Compose(object):
 
     def __call__(self,data):
         for t in self.transform:
-            print(t)
+            #print(t)
             data = t(data)
             if data is None:
                 return None

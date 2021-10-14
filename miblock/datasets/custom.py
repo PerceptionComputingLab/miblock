@@ -18,7 +18,7 @@ class CustomDataset(Dataset):
         return len(self.img_infos)
 
     def __getitem__(self, index):
-        print(self.img_infos[index])
+        #print(self.img_infos[index])
         return self.pipeline(self.img_infos[index])
 
     def loadfiles(self,file_dir,img_dir,lab_dir):
