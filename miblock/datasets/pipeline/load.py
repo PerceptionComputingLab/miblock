@@ -1,7 +1,9 @@
 import SimpleITK as sitk
 import torch
 import numpy as np
-from .builder import PIPELINE
+import sys
+sys.path.append('../../')
+from utils import PIPELINE
 @PIPELINE.register_module()
 class LoadImage(object):
     """Load a medical image

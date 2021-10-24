@@ -2,8 +2,18 @@
   "img_dir": "W:\\LITS17\\image",
   "lab_dir": "W:\\LITS17\\label",
   "train_pipeline": [
-    { "type": "LoadImage" }
-
+    { "type": "LoadImage" },
+    { "type": "Crop"
+    }
   ],
-  "mode": "train"
+  "mode": "train",
+  "model": {
+    "type": "UNet"
+  },
+  "loss": {
+    "type": "TverskyLoss"
+  },
+  "optimizer": {
+    "type": "SGD"
+  }
 }

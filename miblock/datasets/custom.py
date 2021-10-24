@@ -1,8 +1,11 @@
+import sys
+sys.path.append('../../')
 import os.path as osp
 import numpy as np
 from torch.utils.data import Dataset
 from os import listdir
-from .pipeline import Compose,DATASETS
+from .pipeline import Compose
+from utils import DATASETS
 @DATASETS.register_module()
 class CustomDataset(Dataset):
     """Basic dataset

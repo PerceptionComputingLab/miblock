@@ -1,8 +1,10 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
-
+import sys
+sys.path.append("../")
+from utils import MODELS
+@MODELS.register_module()
 class UNet(nn.Module):
     def __init__(self, in_channel=1, out_channel=2, training=True):
         super(UNet, self).__init__()

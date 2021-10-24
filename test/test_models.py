@@ -1,8 +1,9 @@
 import argparse
 import sys
+print(sys.path)
 sys.path.append('../miblock/')
-from utils import Config,PIPELINE
-from datasets import build_dataset
+from utils import Config,MODELS,build
+from models import build_model
 def parse_args():
     parser = argparse.ArgumentParser(description='Train a segmentor')
     parser.add_argument('config', help='train config file path')
@@ -11,11 +12,8 @@ def parse_args():
 
 args = parse_args()
 cfg = Config.load(args.config)
-assert 'img_dir' in cfg
-pipeline = []
-for p in cfg['train_pipeline']:
-    pipeline.append(p['type'])
-assert "LoadImage"  in pipeline
-dataset = build_dataset(cfg)
-print(dataset.__getitem__(1))
-#print(PIPELINE.get('Compose'))
+model = build_model(cfg["model"],MODELS)
+print(model)
+loss = build_model(cfg["loss"],MODELS)
+print(loss)
+optim = build_model(cfg["optimizer"],MODELS)

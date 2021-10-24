@@ -38,7 +38,7 @@ class Registry():
         return _register
 DATASETS = Registry('dataset')
 PIPELINE = Registry('pipeline')
-
+MODELS = Registry("model")
 
 def build(cfg,register):
     """Build a module from config dict.
@@ -54,4 +54,6 @@ def build(cfg,register):
     if isinstance(cfg,dict):
         t = register.get(args.pop('type'))
         return t(**args)
+
+
 

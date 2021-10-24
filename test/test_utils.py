@@ -1,6 +1,6 @@
 import sys
 sys.path.append('../miblock/')
-from utils import Registry
+from utils import Registry,PIPELINE
 newclass = Registry('newclass')
 @newclass.register_module()
 class Thisclass():
@@ -8,7 +8,4 @@ class Thisclass():
         self.name=name
 
 print(newclass.get('Thisclass'))
-
-
-from datasets import PIPELINE
 print(PIPELINE.get('Compose'))

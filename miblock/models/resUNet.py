@@ -1,8 +1,10 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
-
+import sys
+sys.path.append("../")
+from utils import MODELS
+@MODELS.register_module()
 class ResUNet(nn.Module):
     def __init__(self, in_channel=1, out_channel=2 ,training=True):
         super().__init__()
@@ -206,3 +208,4 @@ class ResUNet(nn.Module):
             return output1, output2, output3, output4
         else:
             return output4
+

@@ -1,12 +1,12 @@
 import sys
-from .builder import PIPELINE,build
+sys.path.append('../../')
+from utils import PIPELINE,build
 @PIPELINE.register_module()
 class Compose(object):
-    """Compose multiple transforms sequentially.
+    """Compose  transforms together.
 
     Args:
-        transforms (Sequence[dict | callable]): Sequence of transform object or
-            config dict to be composed.
+        transforms: A list of transform class dict.
     """
     def __init__(self,transforms):
         self.transform = []
@@ -15,10 +15,10 @@ class Compose(object):
 
 
     def __call__(self,data):
-        """Call function to apply transforms sequentially.
+        """Make tansforms run sequentially.
 
         Args:
-            data (dict): A result dict contains the data to transform.
+            data:Filenames of the data or dict that contain the informations of the data
 
         Returns:
            dict: Transformed data.
