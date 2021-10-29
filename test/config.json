@@ -3,8 +3,7 @@
   "lab_dir": "W:\\LITS17\\label",
   "train_pipeline": [
     { "type": "LoadImage" },
-    { "type": "Crop"
-    }
+    { "type": "Crop"}
   ],
   "mode": "train",
   "model": {
@@ -14,6 +13,7 @@
     "type": "TverskyLoss"
   },
   "optimizer": {
-    "type": "SGD"
+    "type": "SGD",
+    "LR": 0.1
   }
 }

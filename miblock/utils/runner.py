@@ -7,29 +7,30 @@ class Runner():
     def __init__(self,cfg):
         self.dataset = build_dataset(cfg)
         self.model = build_model(cfg["model"],MODELS)
-        self.optim = build(self.model,MODELS,cfg["optimizer"])
+        self.optimizer = build(self.model,MODELS,cfg["optimizer"])
         self.loss = build_model(cfg["loss"],MODELS)
+        self.hook =cfg["hook"]
 
-    def train(self,):
-        self.model.train()
-        for epoch in range(cfg["num_epochs"]):
-            for i, (imgs, masks) in enumerate(self.dataset):
-                imgs = imgs.cuda()
-                masks = masks.cuda()
-                outputs = self.model(imgs)
-                loss = self.loss(outputs, masks)
-                self.optim .zero_grad()
-                self.loss.backward()
-                self.optim .step()
-    def test():
-        pass
-
-    @torch.no_grad()
-    def val(self, data_loader, **kwargs):
-        self.model.eval()
-        for i, (imgs, masks) in enumerate(self.dataset):
-            imgs = imgs.cuda()
-            masks = masks.cuda()
-            outputs = self.model(imgs)
-            loss = criterion(outputs, masks)
-
+    def call_hook(self, event_name, *args):
+        args = (time, ) + args
+        event = self.hook[event_name]
+        event = build(event)
+        event()
+    
+    def run(self, epochs = 1):    
+        for i in range(1, epochs + 1):
+            self.train()
+            self.call_hook('epoch', i)
+    
+    def train(self):
+        for i, (x, y) in enumerate(self.dataset, self.iterations + 1):      
+            def closure():
+                out = self.model(x)
+                loss = self.loss(out, y)
+                # TODO 
+                loss.backward()
+            self.optimizer.zero_grad()
+            self.optimizer.step(closure)
+            
+            self.call_hook('iteration',x, y, *hook_data)
+        self.iterations += i

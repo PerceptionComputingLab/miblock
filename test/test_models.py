@@ -1,6 +1,5 @@
 import argparse
 import sys
-print(sys.path)
 sys.path.append('../miblock/')
 from utils import Config,MODELS,build
 from models import build_model
