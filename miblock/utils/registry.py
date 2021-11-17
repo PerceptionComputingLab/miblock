@@ -39,7 +39,8 @@ class Registry():
 DATASETS = Registry('dataset')
 PIPELINE = Registry('pipeline')
 MODELS = Registry("model")
-
+LOSS = Registry("loss")
+OPTIMIZER = Registry("optimizer")
 def build(cfg,register):
     """Build a module from config dict.
 

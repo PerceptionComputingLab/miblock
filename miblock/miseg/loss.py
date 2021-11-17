@@ -2,8 +2,8 @@ import torch
 import torch.nn as nn
 import sys
 sys.path.append("../")
-from utils import MODELS
-@MODELS.register_module()
+from utils import LOSS
+@LOSS.register_module()
 class DiceLoss(nn.Module):
 
     def __init__(self):
@@ -23,7 +23,7 @@ class DiceLoss(nn.Module):
         # 返回的是dice距离
         dice = dice / pred.size(1)
         return torch.clamp((1 - dice).mean(), 0, 1)
-@MODELS.register_module()
+@LOSS.register_module()
 class ELDiceLoss(nn.Module):
     def __init__(self):
         super().__init__()
@@ -42,7 +42,7 @@ class ELDiceLoss(nn.Module):
         # 返回的是dice距离
         return torch.clamp((torch.pow(-torch.log(dice + 1e-5), 0.3)).mean(), 0, 2)
 
-@MODELS.register_module()
+@LOSS.register_module()
 class HybridLoss(nn.Module):
     def __init__(self):
         super().__init__()
@@ -65,7 +65,7 @@ class HybridLoss(nn.Module):
         # 返回的是dice距离 +　二值化交叉熵损失
         return torch.clamp((1 - dice).mean(), 0, 1) + self.bce_loss(pred, target) * self.bce_weight
 
-@MODELS.register_module()
+@LOSS.register_module()
 class JaccardLoss(nn.Module):
     def __init__(self):
         super().__init__()
@@ -85,7 +85,7 @@ class JaccardLoss(nn.Module):
         jaccard = jaccard / pred.size(1)
         return torch.clamp((1 - jaccard).mean(), 0, 1)
 
-@MODELS.register_module()
+@LOSS.register_module()
 class SSLoss(nn.Module):
     def __init__(self):
         super().__init__()
@@ -105,7 +105,7 @@ class SSLoss(nn.Module):
 
         return loss / pred.size(1)
 
-@MODELS.register_module()
+@LOSS.register_module()
 class TverskyLoss(nn.Module):
     
     def __init__(self):

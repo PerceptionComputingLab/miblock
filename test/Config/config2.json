@@ -3,17 +3,19 @@
   "lab_dir": "W:\\LITS17\\label",
   "train_pipeline": [
     { "type": "LoadImage" },
-    { "type": "Crop"}
+    { "type": "Crop",
+      "crop_size": 16
+    }
   ],
   "mode": "train",
   "loader": {
-    "batch_size": 8,
-    "num_workers": 6
+    "batch_size": 2,
+    "num_workers": 1
   },
   "model": {
     "type": "UNet",
-    "in_channel": 1,
-    "out_channel": 2
+    "in_channel": 3,
+    "out_channel": 1
   },
   "loss": {
     "type": "TverskyLoss"

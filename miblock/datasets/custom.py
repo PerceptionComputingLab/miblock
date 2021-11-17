@@ -2,10 +2,11 @@ import sys
 sys.path.append('../../')
 import os.path as osp
 import numpy as np
-from torch.utils.data import Dataset
+from torch.utils.data import Dataset,DataLoader
 from os import listdir
 from .pipeline import Compose
 from utils import DATASETS
+
 @DATASETS.register_module()
 class CustomDataset(Dataset):
     """Basic dataset
@@ -76,3 +77,8 @@ def build_dataset(cfg):
     """
     dataset = CustomDataset(cfg['train_pipeline'],cfg['img_dir'],cfg['lab_dir'],cfg['mode'])
     return dataset
+
+def build_dataloader(dataset,cfg):
+    dataloader = DataLoader(dataset=dataset,batch_size=cfg["batch_size"],\
+            num_workers=cfg["num_workers"], shuffle=True)
+    return dataloader

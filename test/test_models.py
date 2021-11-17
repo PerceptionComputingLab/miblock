@@ -1,8 +1,8 @@
 import argparse
 import sys
 sys.path.append('../miblock/')
-from utils import Config,MODELS,build
-from models import build_model
+from utils import Config,MODELS,OPTIMIZER,LOSS,build
+from miseg import build_model,build_optim
 def parse_args():
     parser = argparse.ArgumentParser(description='Train a segmentor')
     parser.add_argument('config', help='train config file path')
@@ -13,6 +13,7 @@ args = parse_args()
 cfg = Config.load(args.config)
 model = build_model(cfg["model"],MODELS)
 print(model)
-loss = build_model(cfg["loss"],MODELS)
+loss = build_model(cfg["loss"],LOSS)
 print(loss)
-optim = build_model(cfg["optimizer"],MODELS)
+optim = build_optim(cfg["optimizer"],OPTIMIZER,model)
+print(optim)
