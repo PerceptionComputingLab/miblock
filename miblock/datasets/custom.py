@@ -72,10 +72,27 @@ class CustomDataset(Dataset):
             lab = [lab_dir + '/' + i for i in lab]
             return list(zip(sorted(img),sorted(lab)))
 
+    def train_validate_split(self, filenames, train_ratio, seed=1):
+        '''
+        Split the dataset to training and validation set
+        :param filenames: list of paths  eg.["1.png", "2.png"....]
+        :param train_ratio: Float, the ratio of the training set
+        :param seed: random seed, to make sure the spliting is reproducible
+        :return: training and validation set
+        '''
+        # First sort the data set to make sure the filenames have a fixed order
+        filenames.sort()
+        random.seed(seed)
+        random.shuffle(filenames)
+        split = int(train_ratio * len(filenames))
+        train_filenames = filenames[:split]
+        test_filenames = filenames[split:]
+        return train_filenames, test_filenames
+
 def build_dataset(cfg):
     """Build the dataset
     """
-    dataset = CustomDataset(cfg['train_pipeline'],cfg['img_dir'],cfg['lab_dir'],cfg['mode'])
+    dataset = CustomDataset(cfg['data_process_pipeline'],cfg['img_dir'],cfg['lab_dir'],cfg['mode'])
     return dataset
 
 def build_dataloader(dataset,cfg):

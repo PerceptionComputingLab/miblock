@@ -13,8 +13,8 @@ def main():
     args = parse_args()
     cfg = Config.load(args.config)
     if isinstance(cfg,list):
-        for cfgfile in cfg:
-            runner = Runner(cfgfile)
+        for cfg_file in cfg:
+            runner = Runner(cfg_file)
             runner.train()
     else:
         runner = Runner(cfg)

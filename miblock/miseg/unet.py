@@ -20,25 +20,25 @@ class UNet(nn.Module):
          
         self.map4 = nn.Sequential(
             nn.Conv3d(2, out_channel, 1, 1),
-            nn.Upsample(scale_factor=(1, 2, 2), mode='trilinear'),
+            nn.Upsample(scale_factor=(1, 1, 1), mode='trilinear',align_corners=True ),
             nn.Softmax(dim =1)
         )
 
         self.map3 = nn.Sequential(
             nn.Conv3d(64, out_channel, 1, 1),
-            nn.Upsample(scale_factor=(4, 8, 8), mode='trilinear'),
+            nn.Upsample(scale_factor=(4, 8, 8), mode='trilinear',align_corners=True),
             nn.Softmax(dim =1)
         )
 
         self.map2 = nn.Sequential(
             nn.Conv3d(128, out_channel, 1, 1),
-            nn.Upsample(scale_factor=(8, 16, 16), mode='trilinear'),
+            nn.Upsample(scale_factor=(8, 16, 16), mode='trilinear',align_corners=True),
             nn.Softmax(dim =1)
         )
 
         self.map1 = nn.Sequential(
             nn.Conv3d(256, out_channel, 1, 1),
-            nn.Upsample(scale_factor=(16, 32, 32), mode='trilinear'),
+            nn.Upsample(scale_factor=(16, 32, 32), mode='trilinear',align_corners=True),
             nn.Softmax(dim =1)
         )
 
@@ -63,7 +63,4 @@ class UNet(nn.Module):
         out = F.relu(F.interpolate(self.decoder5(out),scale_factor=(2,2,2),mode ='trilinear'))
         output4 = self.map4(out)
 
-        if self.training is True:
-            return output1, output2, output3, output4
-        else:
-            return output4
+        return output4

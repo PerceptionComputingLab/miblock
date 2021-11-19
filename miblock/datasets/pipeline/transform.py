@@ -9,7 +9,6 @@ class Crop():
         self.crop_size = crop_size
 
     def __call__(self,data):
-        print(self.crop_size)
         size1 = random.randint(0,data[0].size(1) - self.crop_size )
         size2 = random.randint(0,data[0].size(2) - self.crop_size )
         size3 = random.randint(0,data[0].size(3) - self.crop_size )

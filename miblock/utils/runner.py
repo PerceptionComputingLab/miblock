@@ -13,9 +13,9 @@ class Runner:
         self.optimizer = build_optim(cfg["optimizer"],OPTIMIZER,self.model)
         self.loss = build_model(cfg["loss"],LOSS)
         #self.hook =cfg["hook"]
-        print(self.model)
-        print(self.optimizer)
-        print(self.loss)
+        #print(self.model)
+        #print(self.optimizer)
+        #print(self.loss)
         
     def call_hook(self, event_name, *args):
         args = (time, ) + args
@@ -33,7 +33,17 @@ class Runner:
             print(x.shape)
             print(y.shape)
             out = self.model(x)
-            loss = self.loss(out, y)
+            loss = []
+            if isinstance(out,tuple):
+                for output in out:
+                    print(output.shape)
+                for output in out:
+                    print(output.shape)
+                    print(y.shape)
+                    loss.append(self.loss(output, y))
+                loss = loss.sum()
+            else:
+                loss = self.loss(out, y)
             loss.backward()
             self.optimizer.zero_grad()
             self.optimizer.step()

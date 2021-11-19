@@ -1,9 +1,10 @@
 {
   "img_dir": "W:\\LITS17\\image",
   "lab_dir": "W:\\LITS17\\label",
-  "train_pipeline": [
+  "data_process_pipeline": [
     { "type": "LoadImage" },
-    { "type": "Crop",
+    {
+      "type": "Crop",
       "crop_size": 16
     }
   ],
@@ -14,7 +15,7 @@
   },
   "model": {
     "type": "UNet",
-    "in_channel": 3,
+    "in_channel": 1,
     "out_channel": 1
   },
   "loss": {

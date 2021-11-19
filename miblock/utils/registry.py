@@ -15,14 +15,13 @@ class Registry():
         """
         return self._module_dict[key]
 
-    def register_module(self, name=None, force=False, module=None):
+    def register_module(self, name=None, force=False):
         """Register a module.
         Args:
             name (str | None): The module name to be registered. If not
                 specified, the class name will be used.
             force (bool, optional): Whether to override an existing class with
                 the same name. Default: False.
-            module (type): Module class to be registered.
         """
         def _register(cls):
             if name == None:
