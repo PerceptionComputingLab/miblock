@@ -3,7 +3,7 @@
   "lab_dir": "W:\\LITS17\\label",
   "train_pipeline": [
     { "type": "LoadImage" },
-    { "type": "Crop"}
+    { "type": "RandomCrop" }
   ],
   "mode": "train",
   "loader": {

@@ -18,4 +18,4 @@ for p in cfg['train_pipeline']:
 assert "LoadImage"  in pipeline
 dataset = build_dataset(cfg)
 print(dataset.__getitem__(1))
-#print(PIPELINE.get('Compose'))
+

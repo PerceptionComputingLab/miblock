@@ -1,3 +1,4 @@
+# Copyright (c) OpenMMLab.
 class Registry():
     """A registry to map strings to classes.
     Args:
@@ -40,6 +41,7 @@ PIPELINE = Registry('pipeline')
 MODELS = Registry("model")
 LOSS = Registry("loss")
 OPTIMIZER = Registry("optimizer")
+
 def build(cfg,register):
     """Build a module from config dict.
 

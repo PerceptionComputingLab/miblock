@@ -12,6 +12,7 @@ def parse_args():
 def main():
     args = parse_args()
     cfg = Config.load(args.config)
+    #if there are multiple config files,cfg is list,else cfg is dict
     if isinstance(cfg,list):
         for cfg_file in cfg:
             runner = Runner(cfg_file)
@@ -21,3 +22,4 @@ def main():
         runner.train()
 if __name__ == '__main__':
     main()
+

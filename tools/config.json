@@ -1,14 +1,15 @@
 {
   "img_dir": "W:\\LITS17\\image",
   "lab_dir": "W:\\LITS17\\label",
+  "mode": "train",
+  "epochs": 20,
   "data_process_pipeline": [
     { "type": "LoadImage" },
     {
-      "type": "Crop",
+      "type": "RandomCrop",
       "crop_size": 16
     }
   ],
-  "mode": "train",
   "loader": {
     "batch_size": 2,
     "num_workers": 1
@@ -19,7 +20,7 @@
     "out_channel": 1
   },
   "loss": {
-    "type": "TverskyLoss"
+    "type": "DiceLoss"
   },
   "optimizer": {
     "type": "SGD",
