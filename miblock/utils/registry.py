@@ -1,15 +1,15 @@
 # Copyright (c) OpenMMLab.
-class Registry():
+class Registry:
     """A registry to map strings to classes.
     Args:
         name (str): Registry name.
     """
 
-    def __init__(self,name):
+    def __init__(self, name):
         self._name = name
         self._module_dict = dict()
 
-    def get(self,key):
+    def get(self, key):
         """Return a class by the name of class
         Args:
             key(name):name of the class
@@ -24,6 +24,7 @@ class Registry():
             force (bool, optional): Whether to override an existing class with
                 the same name. Default: False.
         """
+
         def _register(cls):
             if name == None:
                 self._module_dict[cls.__name__] = cls
@@ -32,17 +33,20 @@ class Registry():
                 self._module_dict[name] = cls
             else:
                 raise TypeError(
-                'name must be either of None, an instance of str or a sequence'
-                f'  of str, but got {type(name)}')
+                    'name must be either of None, an instance of str or a sequence'
+                    f'  of str, but got {type(name)}')
 
         return _register
+
+
 DATASETS = Registry('dataset')
 PIPELINE = Registry('pipeline')
 MODELS = Registry("model")
 LOSS = Registry("loss")
 OPTIMIZER = Registry("optimizer")
 
-def build(cfg,register):
+
+def build(cfg, register):
     """Build a module from config dict.
 
     Args:
@@ -53,9 +57,6 @@ def build(cfg,register):
         object: The constructed object.
     """
     args = cfg.copy()
-    if isinstance(cfg,dict):
+    if isinstance(cfg, dict):
         t = register.get(args.pop('type'))
         return t(**args)
-
-
-

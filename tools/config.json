@@ -1,29 +1,41 @@
 {
-  "img_dir": "W:\\LITS17\\image",
-  "lab_dir": "W:\\LITS17\\label",
+  "train_data": {
+      "image_dir": "/home/xxtx/data_new/train/data/",
+  "label_dir": "/home/xxtx/data_new/train/label/"
+  },
+  "eval_data": {
+      "image_dir": "/home/xxtx/data_new/eval/data/",
+  "label_dir": "/home/xxtx/data_new/eval/label/"
+  },
+    "test_data": {
+      "image_dir": "/home/xxtx/data_new/test/data/",
+  "label_dir": "/home/xxtx/data_new/test/label/"
+  },
   "mode": "train",
-  "epochs": 20,
+  "epochs": 50,
+  "checked": true,
   "data_process_pipeline": [
     { "type": "LoadImage" },
-    {
-      "type": "RandomCrop",
-      "crop_size": 16
+    {"type": "AdjustWindow",
+      "window_width":40,
+      "window_level":100
     }
   ],
   "loader": {
-    "batch_size": 2,
+    "batch_size": 8,
     "num_workers": 1
   },
   "model": {
-    "type": "UNet",
+    "type": "UNet_2d",
     "in_channel": 1,
-    "out_channel": 1
+    "out_channel": 2
   },
   "loss": {
-    "type": "DiceLoss"
+    "type": "CrossEntryLoss"
   },
   "optimizer": {
-    "type": "SGD",
-    "lr": 0.1
+    "type": "Adam",
+    "lr": 1e-3,
+    "weight_decay": 6e-4
   }
 }
