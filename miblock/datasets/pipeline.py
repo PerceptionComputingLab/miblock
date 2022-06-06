@@ -123,6 +123,36 @@ class LoadImage:
 
 
 @PIPELINE.register_module()
+class AdjustWindow:
+    """
+    Args:
+        window width:Range of Hu values for target organ
+        window level:Median Hu value of the target organ
+    """
+
+    def __init__(self, window_width, window_level):
+        self.limits = [window_level - window_width / 2, window_level + window_width / 2]
+
+    def __call__(self, data):
+        if isinstance(data, tuple):
+            image = data[0].astype(np.float64)
+            label = data[1].astype("uint8")
+            image = self.func(image)
+            return image.astype("uint8"), label.astype("uint8")
+        else:
+            image = self.func(data)
+            return image.astype("uint8")
+
+    def func(self, data):
+        graymax = float(self.limits[1])
+        graymin = float(self.limits[0])
+        delta = 1 / (graymax - graymin)
+        gray = delta * data - graymin * delta
+        graycut = np.maximum(0, np.minimum(gray, 1))
+        out = (graycut * 255)
+        return out
+
+@PIPELINE.register_module()
 class Normalization:
     def __init__(self, ):
         pass
@@ -186,43 +216,3 @@ class RandomCrop:
             image = data
             image = image[:, size1:self.crop_size, size2:self.crop_size, size3:self.crop_size]
             return image
-
-
-@PIPELINE.register_module()
-class AdjustWindow:
-    """
-    Args:
-        window width:Range of Hu values for target organ
-        window level:Median Hu value of the target organ
-    """
-
-    def __init__(self, window_width, window_level):
-        self.limits = [window_level - window_width / 2, window_level + window_width / 2]
-
-    def __call__(self, data):
-        if isinstance(data, tuple):
-            image = data[0].astype(np.float64)
-            label = data[1].astype("uint8")
-            image = self.func(image)
-            return image.astype("uint8"), label.astype("uint8")
-        else:
-            image = self.func(data)
-            return image.astype("uint8")
-
-    def func(self, data):
-        graymax = float(self.limits[1])
-        graymin = float(self.limits[0])
-        delta = 1 / (graymax - graymin)
-        gray = delta * data - graymin * delta
-        graycut = np.maximum(0, np.minimum(gray, 1))
-        out = (graycut * 255)
-        return out
-
-
-@PIPELINE.register_module()
-class RandomResize:
-    def __init__(self, size):
-        self.size = size
-
-    def __call__(self, data):
-        pass

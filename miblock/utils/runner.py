@@ -4,7 +4,7 @@ from torch.optim.lr_scheduler import StepLR
 import torch.nn.functional as F
 import os
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 os.environ["MKL_NUM_THREADS"] = '4'
 os.environ["NUMEXPR_NUM_THREADS"] = '4'
 os.environ["OMP_NUM_THREADS"] = '4'
@@ -63,19 +63,13 @@ class Runner:
     def iteration(self, model, mode="train"):
         loss_epoch = 0
         for i, (images, labels) in enumerate(self.train_dataloader):
-            # print("loss", loss_epoch)
             images, labels = images.type(torch.FloatTensor), labels
-            # print("images_shape", images.shape)
-            # print("labels_shape", labels.shape)
             images, labels = images.cuda(), labels.cuda()
             _, _, C, W, H = images.size()
             if self.checked:
                 for i in range(0, C):
                     image = images[:, :, i, ...]
                     label = labels[:, :, i, ...]
-
-                    # print("image_shape", image.shape)
-                    # print("label_shape", label.shape)
                     out = model(image)
                     out = torch.unsqueeze(out, 2)
                     # todo
@@ -112,6 +106,8 @@ class Runner:
                         self.optimizer.step()
                     else:
                         pass
+        # for param_group in self.optimizer.param_groups:
+        #     print('%0.6f ' % (param_group['lr']))
         return loss_epoch
 
     def train(self):
