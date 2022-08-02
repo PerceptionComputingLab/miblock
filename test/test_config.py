@@ -11,4 +11,3 @@ def parse_args():
 
 args = parse_args()
 cfg = Config.load(args.config)
-print(cfg)
